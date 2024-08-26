@@ -31,18 +31,20 @@ jobs:
         echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
 
     - name: Select or Create Terraform Workspace
+      working-directory: terraform
       run: |
+        terraform init
         terraform workspace select dev || terraform workspace new dev
         echo "TF_WORKSPACE=dev" >> $GITHUB_ENV
 
     - name: Terraform Format
+      working-directory: terraform
       run: terraform validate
 
-    - name: Terraform Init
-      run: terraform init
-
     - name: Terraform Plan
+      working-directory: terraform
       run: terraform plan
 
     - name: Terraform Apply
+      working-directory: terraform
       run: terraform apply -auto-approve
