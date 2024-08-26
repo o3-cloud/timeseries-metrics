@@ -16,5 +16,8 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: List file
-      run: ls -lh
+    - name: Test
+      run: ./bin/task test
+    
+    - name: build
+      run: ./bin/task build

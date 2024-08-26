@@ -1,0 +1,20 @@
+version: 3
+vars:
+  ENV: dev
+tasks:
+  build:
+    cmds:
+      - echo "Building..."
+  test:
+    cmds:
+      - echo "Testing..."
+  deploy:
+    cmds:
+      - echo "Deploying to {{.ENV}}..."
+  code:
+    cmds:
+      - code2prompt --filter "*.md,*.yml" --path ./ --output .project/code.txt --exclude "**/node_modules/**,*-lock.json,*.png,.cllm,.project" --line-number
+  do:
+    cmds:
+      - task: code
+      - cllm -pp "$(cat .project/code.txt)" -cp .project -c project --disable-chat-context-write gpt/4 "{{.q}}"
